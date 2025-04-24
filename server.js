@@ -7,6 +7,7 @@ const clientRoutes = require('./routes/clientRoutes');
 const cors = require('cors');
 const SkinType = require('./models/skinType');
 const authenticateToken = require('./middleware/authMiddleware');
+const productRoutes = require('./routes/productRoutes.js');
 
 const insertDefaultSkinTypes = async () => {
   const count = await SkinType.countDocuments();
@@ -41,23 +42,21 @@ const insertDefaultSkinTypes = async () => {
 };
 
 const app = express();
-
+const path = require('path');
 // Middlewares globaux
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Servir les images uploadées statiquement
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
-
+app.use('/api/products', productRoutes);
 // Test JWT route
-app.get('/api/user/me', authenticateToken, (req, res) => {
-  res.json({ message: 'Utilisateur connecté', user: req.user });
-});
+
 
 // Port
 const PORT = process.env.PORT || 5000;

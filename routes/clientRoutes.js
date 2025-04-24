@@ -6,5 +6,4 @@ const upload = require("../middleware/upload");
 const authMiddleware = require("../middleware/authMiddleware"); // middleware JWT
 
 router.put("/update-form", authMiddleware, upload.single("photo"), clientController.updateSkinForm);
-
 module.exports = router;

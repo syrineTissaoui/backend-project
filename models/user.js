@@ -6,9 +6,10 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'seller'],
     default: 'user'
-  }
-}, { timestamps: true }); 
+  },
+  joined: { type: Date, default: Date.now },
+}); 
 
 module.exports = mongoose.model('user', userSchema);
