@@ -8,6 +8,9 @@ const cors = require('cors');
 const SkinType = require('./models/skinType');
 const authenticateToken = require('./middleware/authMiddleware');
 const productRoutes = require('./routes/productRoutes.js');
+const messageRoutes = require('./routes/messageRoutes.js');
+
+const orderRoutes = require('./routes/orderRoutes.js');
 
 const insertDefaultSkinTypes = async () => {
   const count = await SkinType.countDocuments();
@@ -55,7 +58,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/products', productRoutes);
-// Test JWT route
+app.use('/api/messages', messageRoutes);
+app.use('/api/orders', orderRoutes);
 
 
 // Port
