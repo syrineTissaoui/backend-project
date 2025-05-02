@@ -3,18 +3,39 @@ const Product = require('../models/product.js');
 // Create a product
 exports.createProduct = async (req, res) => {
   try {
-    const productData = req.body;
-    if (req.file) {
-      productData.image = req.file.path; // save the path to the image
+    const {
+      name,
+      price,
+      stock,
+      category,
+    
+      description,
+      userId
+    } = req.body;
+console.log('req.body',req.body)
+    if (!name || !price || !stock) {
+      return res.status(400).json({ error: 'Champs requis manquants.' });
     }
 
-    const product = new Product(productData);
-    await product.save();
-    res.status(201).json(product);
+    const product = new Product({
+      name,
+      price,
+      stock,
+      category,
+     
+  userId,
+      description,
+      image: req.file ? req.file.filename : null,
+    });
+
+    const saved = await product.save();
+    res.status(201).json(saved);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('Erreur création produit :', err);
+    res.status(500).json({ error: err.message });
   }
 };
+
 
 // Get all products
 exports.getAllProducts = async (req, res) => {

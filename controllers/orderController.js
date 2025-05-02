@@ -14,10 +14,10 @@ exports.getAllOrders = async (req, res) => {
 // Create a new order
 exports.createOrder = async (req, res) => {
   try {
-    const { customer, date, status, total, productIds } = req.body;
+    const { user, date, status, total, productIds } = req.body;
 
     const newOrder = new Order({
-      customer,
+      userId:user,
       date,
       status,
       total,
@@ -66,4 +66,17 @@ exports.getSellerOrders = async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
+exports.getOrderById = async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.params.userId }).populate('productIds');
 
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ message: 'Aucune commande trouvée pour cet utilisateur.' });
+    }
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des commandes :', error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};

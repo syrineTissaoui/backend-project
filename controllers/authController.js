@@ -61,8 +61,47 @@ exports.login = async (req, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: '1d',
   });
-  const client = await Client.findOne({ userId: user._id });
-    console.log('client',client);
+   
 
-  res.json({ token, user: { id: user._id, name: user.name, email: user.email , role:user.role , joined:user.joined , avatar:client.photo } });
+  res.json({ token, user: { id: user._id, name: user.name, email: user.email , role:user.role , joined:user.joined , avatar:user.photo } });
+};
+
+exports.updateUtilisateur = async (req, res) => {
+  try {
+    console.log(' req.body', req.body)
+    console.log(' req.file', req.file)
+
+    const { nom, email, password  } = req.body;
+    const updates = {};
+
+    if (nom) updates.name = nom;
+    if (email) updates.email = email;
+
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updates.password = hashedPassword;
+    }
+
+    if (req.file) {
+      updates.photo = req.file.filename;
+    }
+console.log('updates',updates)
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: updates },
+      { new: true }
+    );
+console.log('updatedUser',updatedUser)
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'Utilisateur introuvable' });
+    }
+
+    res.status(200).json({
+      message: 'Utilisateur mis à jour avec succès',
+      photo: updatedUser.photo
+    });
+  } catch (error) {
+    console.error('Erreur update utilisateur:', error);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
 };

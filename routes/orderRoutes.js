@@ -14,5 +14,5 @@ router.post('/', orderController.createOrder);
 // PUT update order
 router.put('/:id', orderController.updateOrder);
 router.get('/seller/:userId', orderController.getSellerOrders);
-
+router.get('/:id', orderController.getOrderById);
 module.exports = router;
