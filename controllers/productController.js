@@ -12,7 +12,7 @@ exports.createProduct = async (req, res) => {
       description,
       userId
     } = req.body;
-console.log('req.body',req.body)
+console.log('req.file',req.file.path)
     if (!name || !price || !stock) {
       return res.status(400).json({ error: 'Champs requis manquants.' });
     }
@@ -25,7 +25,7 @@ console.log('req.body',req.body)
      
   userId,
       description,
-      image: req.file ? req.file.filename : null,
+      image: req.file.path,
     });
 
     const saved = await product.save();

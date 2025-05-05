@@ -11,6 +11,7 @@ const productRoutes = require('./routes/productRoutes.js');
 const messageRoutes = require('./routes/messageRoutes.js');
 
 const orderRoutes = require('./routes/orderRoutes.js');
+const customerRoutes = require('./routes/userRoutes.js');
 
 const insertDefaultSkinTypes = async () => {
   const count = await SkinType.countDocuments();
@@ -60,7 +61,7 @@ app.use('/api/client', clientRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/orders', orderRoutes);
-
+app.use('/api/users', customerRoutes);
 
 // Port
 const PORT = process.env.PORT || 5000;
