@@ -8,7 +8,6 @@ exports.createProduct = async (req, res) => {
       price,
       stock,
       category,
-    
       description,
       userId
     } = req.body;
@@ -22,8 +21,7 @@ console.log('req.file',req.file.path)
       price,
       stock,
       category,
-     
-  userId,
+      userId,
       description,
       image: req.file.path,
     });

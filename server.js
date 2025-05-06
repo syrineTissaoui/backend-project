@@ -12,7 +12,7 @@ const messageRoutes = require('./routes/messageRoutes.js');
 
 const orderRoutes = require('./routes/orderRoutes.js');
 const customerRoutes = require('./routes/userRoutes.js');
-
+const createSuperAdmin = require('./createSuperAdminjs');
 const insertDefaultSkinTypes = async () => {
   const count = await SkinType.countDocuments();
   if (count === 0) {
@@ -69,5 +69,6 @@ const PORT = process.env.PORT || 5000;
 // Lancement de l’app après connexion à MongoDB
 connectDB().then(() => {
   insertDefaultSkinTypes();
+  createSuperAdmin(); 
   app.listen(PORT, () => console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`));
 });

@@ -1,0 +1,30 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const User = require('./models/user'); // ajuste le chemin si besoin
+
+const createSuperAdmin = async () => {
+  try {
+    const existingAdmin = await User.findOne({ role: 'super-admin' });
+    if (existingAdmin) {
+      console.log('✅ Super-admin déjà existant :', existingAdmin.email);
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash('superadmin123', 10); // Choisis un mot de passe plus sûr en prod
+
+    const superAdmin = new User({
+      name: 'Super Admin',
+      email: 'super-admin@example.com',
+      password: hashedPassword,
+      role: 'super-admin',
+      photo: '',
+    });
+
+    await superAdmin.save();
+    console.log('✅ Super-admin créé avec succès ');
+  } catch (err) {
+    console.error('❌ Erreur création super-admin :', err);
+  }
+};
+
+module.exports = createSuperAdmin;
