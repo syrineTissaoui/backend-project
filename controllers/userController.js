@@ -2,7 +2,7 @@
 const SkinType = require('../models/skinType');
 const User = require('../models/user');
 const Client = require('../models/client');
-
+const bcrypt = require('bcryptjs');
 exports.getAllSkinTypes = async (req, res) => {
   try {
     const skinTypes = await SkinType.find();
@@ -43,16 +43,38 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-  try {
-    console.log("Corps de la requête reçue:", req.body); // ← Ajoute ceci
-
-    const newUser = new User(req.body); // ou User.create(req.body)
-    const saved = await newUser.save();
-    res.status(201).json(saved);
-  } catch (err) {
-    res.status(400).json({ message: 'Erreur ajout', error: err.message });
-  }
-};
+console.log('req.body',req.body)
+   const { name, email,phone, password, role } = req.body;
+ 
+   try {
+     // Check if the user already exists
+     const existingUser = await User.findOne({ email });
+     if (existingUser) {
+       return res.status(400).json({ msg: "Utilisateur déjà existe" });
+     }
+ 
+     // Hash the password before saving
+     const hashedPassword = await bcrypt.hash(password, 10);
+ 
+     // Create new user
+     const newUser = new User({
+       name,
+       email,
+       password: hashedPassword,
+       phone,
+       role,
+     });
+ console.log('newUser',newUser)
+     await newUser.save();
+ 
+     // Generate a JWT token
+    
+   
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ msg: "Erreur serveur" });
+   }
+ };
 
 // PUT update user
 exports.updateUser = async (req, res) => {

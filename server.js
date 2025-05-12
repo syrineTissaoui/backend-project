@@ -13,6 +13,8 @@ const messageRoutes = require('./routes/messageRoutes.js');
 const orderRoutes = require('./routes/orderRoutes.js');
 const customerRoutes = require('./routes/userRoutes.js');
 const createSuperAdmin = require('./createSuperAdminjs');
+const  skinProfileRoutes = require( './routes/skinTypeRoutes.js');
+
 const insertDefaultSkinTypes = async () => {
   const count = await SkinType.countDocuments();
   if (count === 0) {
@@ -56,6 +58,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
+app.use('/api/skin-type', skinProfileRoutes);
+
 app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/products', productRoutes);

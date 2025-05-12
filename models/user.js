@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     default: 'user'
   },
   photo:{ type: String },
+  phone:{ type: String },
   joined: { type: Date, default: Date.now },
 }); 
 

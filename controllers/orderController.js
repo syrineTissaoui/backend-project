@@ -67,9 +67,10 @@ exports.getSellerOrders = async (req, res) => {
   }
 };
 exports.getOrderById = async (req, res) => {
+  console.log('req.params.userId',req.params.id)
   try {
-    const orders = await Order.find({ userId: req.params.userId }).populate('productIds');
-
+    const orders = await Order.find({ userId: req.params.id }).populate('productIds');
+console.log('orders',orders)
     if (!orders || orders.length === 0) {
       return res.status(404).json({ message: 'Aucune commande trouvée pour cet utilisateur.' });
     }
