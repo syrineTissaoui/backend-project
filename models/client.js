@@ -8,7 +8,8 @@ const ClientSchema = new mongoose.Schema({
   skinType: { type: String },
   concerns: [String],
   message: String,
+  sensitivity:String,
   photo: String // URL de l’image
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('client', ClientSchema);
