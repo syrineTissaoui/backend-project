@@ -7,6 +7,10 @@ const productSchema = new mongoose.Schema({
   skinType: String,
   category:String,
   image:String,
+  rating: Number,
+  composition: String,
+  advice: String,
+  
   userId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 

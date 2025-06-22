@@ -9,6 +9,10 @@ exports.createProduct = async (req, res) => {
       stock,
       category,
       description,
+       rating,
+      composition,
+      advice,
+     
       userId
     } = req.body;
 console.log('req.file',req.file.path)
@@ -23,6 +27,10 @@ console.log('req.file',req.file.path)
       category,
       userId,
       description,
+      rating,
+      composition,
+      advice,
+    
       image: req.file.path,
     });
 

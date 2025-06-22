@@ -10,6 +10,15 @@ exports.getSkinProfile = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+exports.getSkinType = async (req, res) => {
+  try {
+    const profile = await SkinProfile.find();
+    if (!profile) return res.status(404).json({ message: 'Profile not found' });
+    res.json(profile);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 // POST / update skin profile
 exports.updateSkinProfile = async (req, res) => {
